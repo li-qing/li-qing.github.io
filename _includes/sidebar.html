@@ -6,7 +6,7 @@
     </div>
 
     <nav class="sidebar-nav">
-      <a class="sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}" href="{{ site.baseurl }}">主页</a>
+      <a class="sidebar-nav-item{% if page.url == site.baseurl %} active{% endif %}" href="{{ site.url }}">主页</a>
       {% assign pages_list = site.pages %}
       {% for node in pages_list %}
         {% if node.title != null %}
@@ -23,7 +23,7 @@
         Powered by <a href="http://pages.github.com">GitHub</a>
         & <a href="https://github.com/mojombo/jekyll">Jekyll</a>
         & <a href="http://hyde.getpoole.com/">Hyde</a> 
-        Copyright {{site.time | date:"%Y"}} by <a href="{{ site.baseurl }}about/">{{ site.title }}</a> 
+        Copyright {{site.time | date:"%Y"}} by <a href="{{ site.url }}about/">{{ site.title }}</a> 
         </small>
     </footer>
   </div>
