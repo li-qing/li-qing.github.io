@@ -1,0 +1,44 @@
+# Site settings
+title: 离青
+email: lshhch@gmail.com
+description: > #
+  我认为的光芒 <br />
+  是用阴暗点燃的光芒 <br />
+  我认为的时刻 <br />
+  是缺席所有重要事件的时刻 <br />
+  我认为的死亡 <br />
+  是实则悬崖勒马却无法被看到的死亡 <br />
+  我认为的活着 <br />
+  是分外踏实的活着 <br />
+  像一个画家 笔尖落下的点<br />
+  那个点还在 他就还活着
+
+baseurl: "file:///Users/wit/Desktop/site/"
+url: "file:///Users/wit/Desktop/site"
+#url: "https://li-qing.github.io"
+github_username:  li-qing
+
+# Build settings
+markdown: kramdown
+
+# Dependencies
+#markdown:         redcarpet
+#highlighter:      pygments
+
+# Permalinks
+permalink:        pretty
+relative_permalinks: true
+
+# Setup
+#title:            Hyde
+#tagline:          'A Jekyll theme'
+#description:      'A brazen two-column <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that pairs a prominent sidebar with uncomplicated content. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
+#url:              http://hyde.getpoole.com
+#baseurl:          /
+
+paginate:         5
+
+# Custom vars
+version:          2.1.0
+repo:           https://github.com/poole/hyde
+
