@@ -1,4 +1,4 @@
-# Site settings
+# desc
 title: 离青
 description: > #
   我认为的光芒 <br />
@@ -12,19 +12,16 @@ description: > #
   像一个画家 笔尖落下的点<br />
   那个点还在 他就还活着
 
-baseurl: "https://li-qing.github.io/"
+# config
+baseurl: ""
 url: "https://li-qing.github.io/"
 email: lshhch@gmail.com
 github_username: li-qing
+paginate: 5
 
-# Build settings
+# build
 markdown: kramdown
-#markdown: redcarpet
-#highlighter: pygments
-
-# Permalinks
+highlighter: pygments
 permalink: pretty
 relative_permalinks: true
-
-# Setup
-paginate: 5
+#markdown: redcarpet
