@@ -15,15 +15,15 @@
           {% endif %}
         {% endif %}
       {% endfor %}
-      <a class="sidebar-nav-item" href="feed.xml">Subscribe</a>
+      <a class="sidebar-nav-item" href="{{ site.baseurl }}feed.xml">Subscribe</a>
     </nav>
 
     <footer>
         <small>
-        Powered by <a href="https://github.com/mojombo/jekyll">Jekyll</a>
-        & <a href="http://pages.github.com">GitHub</a> 
+        Powered by <a href="http://pages.github.com">GitHub</a>
+        & <a href="https://github.com/mojombo/jekyll">Jekyll</a>
         & <a href="http://hyde.getpoole.com/">Hyde</a> 
-        Copyright {{site.time | date:"%Y"}} by <a href="about/">{{ site.title }}</a> 
+        Copyright {{site.time | date:"%Y"}} by <a href="{{ site.baseurl }}about/">{{ site.title }}</a> 
         </small>
     </footer>
   </div>
