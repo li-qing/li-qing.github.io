@@ -2,7 +2,7 @@
 layout: post
 title: 链式构造NSLayoutConstraint
 category: iOS
-tags: NSLayoutConstraint
+tags: AutoLayout
 ---
 
 ## 前言
