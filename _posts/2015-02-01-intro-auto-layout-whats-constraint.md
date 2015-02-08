@@ -7,17 +7,17 @@ tags: AutoLayout
 
 开个坑讲讲Auto Layout的那点事儿. 预计分卷如下:
 
-	1. 何为约束
-	2. intrinsic size & alignment rect
-	3. Auto Layout框架
-	4. Auto Layout中的autoresizing mask
-	5. frame、transform与constraint
-	6. margin
-	7. Auto Layout VS 传统布局 
+  1. 约束
+  2. 布局空间
+  3. Auto Layout框架
+  4. Auto Layout中的autoresizing mask
+  5. frame、transform与constraint
+  6. margin
+  7. Auto Layout VS 传统布局 
 
 逐卷介绍Auto Layout中的部分概念, 并比对与先前布局机制的异同点.
 
---- 
+- - - 
 
 ## 何为约束
 
@@ -25,83 +25,89 @@ iOS6时, UIKit增加了Auto Layout, 使用约束描述UI对象属性间关系的
 
 NSLayoutConstraint作为约束的载体, 定义了约束相关的属性如下:
 
-	- priority 			优先级, 取值越高, 优先级越高. 预设的优先级有required/high/low/size fitting四种.
-	- firstItem 		被约束视图
-	- firstAttribute 	被约束属性
-	- relation  		关系, 大于等于/等于/小于等于三种.
-	- secondItem  		参照视图
-	- secondAttribute  	参照属性
-	- multiplier  		倍数因子
-	- constant  		偏移因子
-	- identifier		标示符
-	- shouldBeArchived  是否随view一同序列化, 默认NO; 一般而言, 布局约束应序列化, 中间状态不应.
+  - priority        优先级, 取值越高, 优先级越高. 预设的优先级有required/high/low/size fitting四种.
+  - firstItem       被约束视图
+  - firstAttribute  被约束属性 
+  - relation        关系, 大于等于/等于/小于等于三种.
+  - secondItem      参照视图
+  - secondAttribute 参照属性
+  - multiplier      倍数因子
+  - constant        偏移因子
+  - identifier      标示符
+  - shouldBeArchived  是否随view一同序列化, 默认NO; 一般而言, 布局约束应序列化, 中间状态不应.
 
-其中的relation定义如下:
+其中的attribute定义如下:
 
 {% highlight objc %}
 typedef NS_ENUM(NSInteger, NSLayoutAttribute) {
-	NSLayoutAttributeNotAnAttribute = 0		// 无属性
-    NSLayoutAttributeLeft,					// 左侧
-    NSLayoutAttributeRight,					// 右侧
-    NSLayoutAttributeTop,					// 上侧	
-    NSLayoutAttributeBottom,				// 下侧
-    NSLayoutAttributeLeading,				// 书写起始侧
-    NSLayoutAttributeTrailing,				// 书写终止侧
-    NSLayoutAttributeWidth,					// 宽
-    NSLayoutAttributeHeight,				// 高
-    NSLayoutAttributeCenterX,				// 水平中点
-    NSLayoutAttributeCenterY,				// 垂直中点
-    NSLayoutAttributeBaseline,				// 基准线
-    NSLayoutAttributeLastBaseline,			// 末行基准线
-    NSLayoutAttributeFirstBaseline,			// 首行基准线
-    NSLayoutAttributeLeftMargin,			// 左边界
-    NSLayoutAttributeRightMargin,			// 右边界
-    NSLayoutAttributeTopMargin,				// 上边界
-    NSLayoutAttributeBottomMargin,			// 下边界
-    NSLayoutAttributeLeadingMargin,			// 书写起始边界
-    NSLayoutAttributeTrailingMargin,		// 书写终止边界
-    NSLayoutAttributeCenterXWithinMargins,	// 边界内水平中点
-    NSLayoutAttributeCenterYWithinMargins,	// 边界内垂直中点
+  NSLayoutAttributeNotAnAttribute,    // 无属性
+    NSLayoutAttributeLeft,            // 左侧
+    NSLayoutAttributeRight,           // 右侧
+    NSLayoutAttributeTop,             // 上侧 
+    NSLayoutAttributeBottom,          // 下侧
+    NSLayoutAttributeLeading,         // 书写起始侧
+    NSLayoutAttributeTrailing,        // 书写终止侧
+    NSLayoutAttributeWidth,           // 宽
+    NSLayoutAttributeHeight,          // 高
+    NSLayoutAttributeCenterX,         // 水平中点
+    NSLayoutAttributeCenterY,         // 垂直中点
+    NSLayoutAttributeBaseline,        // 基准线
+    NSLayoutAttributeLastBaseline,    // 末行基准线
+    NSLayoutAttributeFirstBaseline,   // 首行基准线
+    NSLayoutAttributeLeftMargin,      // 左边界
+    NSLayoutAttributeRightMargin,     // 右边界
+    NSLayoutAttributeTopMargin,       // 上边界
+    NSLayoutAttributeBottomMargin,    // 下边界
+    NSLayoutAttributeLeadingMargin,   // 书写起始边界
+    NSLayoutAttributeTrailingMargin,  // 书写终止边界
+    NSLayoutAttributeCenterXWithinMargins,  // 边界内水平中点
+    NSLayoutAttributeCenterYWithinMargins,  // 边界内垂直中点
 };
-// 其中的margin指的是iOS8引入的layoutMargins, 指UI对象内嵌的一段边距, 借由这段边距和上述margin属性, UI对象得以统一设定内部留白区域.
 {% endhighlight %}
 
 从而, UI对象间的关系可以描述为如下线性关系:
 
-	firstItem.firstAttribute >= multiplier × secondItem.secondAttribute + constant
-	或
-	firstItem.firstAttribute == multiplier × secondItem.secondAttribute + constant
-	或
-	firstItem.firstAttribute <= multiplier × secondItem.secondAttribute + constant
+  firstItem.firstAttribute >= multiplier × secondItem.secondAttribute + constant
+  或
+  firstItem.firstAttribute == multiplier × secondItem.secondAttribute + constant
+  或
+  firstItem.firstAttribute <= multiplier × secondItem.secondAttribute + constant
 
 例如:
 
-	label.trailing == 1 × cell.contentView.trailing - 10
+  icon.left == 1 × cell.contentView.left + 10
 
-需要额外注意的是, 除priority、constant、identifier和shouldBeArchived外的属性都是readonly的.
+就表示icon的左侧在cell.contentView左侧+10的位置.
+
+## 约束的使用限制
+
+  1. NSLayoutConstraint的属性中priority、constant、identifier和shouldBeArchived外的属性都是readonly的;
+  2. firstItem和firstAttribute不能为空(nil/none), secondItem和secondAttribute则可以;
+  3. 约束必须添加在firstItem和secondItem的共同先祖视图上;
+  4. 约束描述的参照关系不能穿越bounds可以偏移的视图, 如UIScrollView的subview不能设定subview.top == scrollview.superview.top.
 
 ## 使用代码创建约束
 
 NSLayoutConstraint提供了两种构造方法:
 
-1. +constraintWithItem:attribute:relatedBy:toItem:attribute:multiplier:constant:
+###1. +constraintWithItem:attribute:relatedBy:toItem:attribute:multiplier:constant:
 
-	直接使用readonly的属性创建约束. 由于创建时不得不指定所有属性, 即使secondItem不存在、multiplier为1或constant为0也不能避免, 导致可读性和易用性都堪忧, 因而再次推荐笔者的另一篇[blog](ios/2015/01/09/constraint_builder/).
+直接使用readonly的属性创建约束. 由于创建时不得不指定所有属性, 即使secondItem不存在、multiplier为1或constant为0也不能避免, 导致可读性和易用性都堪忧, 因而再次推荐笔者的另一篇[blog](ios/2015/01/09/constraint_builder/).
 
-2. constraintsWithVisualFormat:options:metrics:views:
+###2. constraintsWithVisualFormat:options:metrics:views:
 
-	通过Visual Format Language一次创建水平/垂直方向上的一组约束. metrics和views分别为常量和视图映射. Visual Format的具体规则可以参阅Auto Layout Guide, 这里只简单举个例子:
+通过Visual Format Language一次创建水平/垂直方向上的一组约束. metrics和views分别为常量和视图映射. Visual Format的具体规则可以参阅Auto Layout Guide, 这里只简单举个例子:
 
 V:\|-10-\[label(>=70@1000,>=button@250)\]-\[button\]\[icon\]-\|
 
-符号						| 含义
+符号 | 含义
 ------------------------|---------------------------------------------------------
-V:	 					| 垂直方向
-\|-10-\[label\]			| label与容器上边距为10
+V:                      | 垂直方向
+\|-10-\[label\]         | label与容器上边距为10
 (>=70@1000,>=button@250)| label高大于等于70, 优先级1000; 高大于等于button高, 优先级250
-\[label\]-\[button\]	| label与button间距为默认长度(8)
-\[button\]\[icon\]		| button与icon相邻, 无间距; button和icon使用intrinsic size高
-\[icon\]-\|				| icon与容器下边距为默认长度(8)
+\[label\]-\[button\]    | label与button间距为默认长度(8)
+\[button\]\[icon\]      | button与icon相邻, 无间距; button和icon使用intrinsic size高
+\[icon\]-\|             | icon与容器下边距为默认长度(8)
 
 
 此外, 可以通过options来额外设定Visual Format中视图间的对其关系. options定义如下
@@ -112,20 +118,20 @@ enum {
    NSLayoutFormatAlignAllLeft,          // Y轴方向 元素左对齐
    NSLayoutFormatAlignAllRight,         // Y轴方向 元素右对齐
    NSLayoutFormatAlignAllTop,           // X轴方向 元素上对齐
-   NSLayoutFormatAlignAllBottom,       	// X轴方向 元素下对齐
-   NSLayoutFormatAlignAllLeading,     	// X轴方向 元素头对齐
-   NSLayoutFormatAlignAllTrailing,   	// X轴方向 元素尾对齐
-   NSLayoutFormatAlignAllCenterX,     	// X轴方向 元素中线对齐
-   NSLayoutFormatAlignAllCenterY,     	// Y轴方向 元素中线对齐
-   NSLayoutFormatAlignAllBaseline,   	// Y轴方向 元素基线对齐
-   NSLayoutFormatAlignAllLastBaseline,	// Y轴方向 元素末行基线对齐
-   NSLayoutFormatAlignAllFirstBaseline,	// Y轴方向 元素首行基线对齐
+   NSLayoutFormatAlignAllBottom,        // X轴方向 元素下对齐
+   NSLayoutFormatAlignAllLeading,       // X轴方向 元素头对齐
+   NSLayoutFormatAlignAllTrailing,      // X轴方向 元素尾对齐
+   NSLayoutFormatAlignAllCenterX,       // X轴方向 元素中线对齐
+   NSLayoutFormatAlignAllCenterY,       // Y轴方向 元素中线对齐
+   NSLayoutFormatAlignAllBaseline,      // Y轴方向 元素基线对齐
+   NSLayoutFormatAlignAllLastBaseline,  // Y轴方向 元素末行基线对齐
+   NSLayoutFormatAlignAllFirstBaseline, // Y轴方向 元素首行基线对齐
    NSLayoutFormatAlignmentMask = 0xFF,
 
    /* choose only one of these three */
-   NSLayoutFormatDirectionLeadingToTrailing = 0 << 8,	// X轴方向 头到尾
-   NSLayoutFormatDirectionLeftToRight = 1 << 8,			// X轴方向 左到右
-   NSLayoutFormatDirectionRightToLeft = 2 << 8,         // X轴方向 右到左
+   NSLayoutFormatDirectionLeadingToTrailing = 0 << 8, // X轴方向 头到尾
+   NSLayoutFormatDirectionLeftToRight = 1 << 8,       // X轴方向 左到右
+   NSLayoutFormatDirectionRightToLeft = 2 << 8,       // X轴方向 右到左
    NSLayoutFormatDirectionMask = 0x3 << 8,
 };
 typedef NSUInteger NSLayoutFormatOptions;
