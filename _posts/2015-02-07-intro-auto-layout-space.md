@@ -13,7 +13,7 @@ tags: AutoLayout
     tips2: iOS8后, 支持first baseline, 在多行文本中指定第一行文本的baseline位置.
     tips3: 部分constraint attribute支持margin, 可以配合layout margins使用.
 
-那么是否可以添加多个约束呢? 显然是可以的, 如V:|-10-[button(80)]-10-|, button上就有三条不同属性的约束. 
+那么是否可以添加多个约束呢? 显然是可以的, 如V:\|-10-[button(80)]-10-\|, button上就有三条不同属性的约束. 
 
 那么是否可以添加多个相同属性的约束呢? 也是可以的, 如V:[button(>=80,<=120)], button上就添加了两条针对高度的约束. 
 
@@ -33,7 +33,7 @@ tags: AutoLayout
 
 intrinsic content size直译就是固有内容尺寸, 即展示内容所需的空间, -intrinsicContentSize返回的就是这个值; -invalidateIntrinsicContentSize则用于通知Auto Layout布局框架视图的intrinsic content size变更, 需要重新调整布局. 当视图在某一维度不存在intrinsic content size时, 应返回UIViewNoIntrinsicMetric. 以UILabel为例, -intrinsicContentSize返回text/attributedText所需的空间, 当改变text等影响intrinsic content size的属性时, UILabel会调用-invalidateIntrinsicContentSize.
 
-有了intrinsic content size的支持, 如UILabel/UIButton/UIImageView这样的视图就可以不针对高宽设定约束, Auto Layout框架会在设定好水平/垂直位置的情况下打理好一切. 想想曾经恶心过那么多人的H:|-[image]-[label]-[button]-(>=8)-[date]-|就此迎刃而解, 妈妈再也用不担心我的-layoutSubviews, 是不是还有一些小激动?
+有了intrinsic content size的支持, 如UILabel/UIButton/UIImageView这样的视图就可以不针对高宽设定约束, Auto Layout框架会在设定好水平/垂直位置的情况下打理好一切. 想想曾经恶心过那么多人的H:\|-[image]-[label]-[button]-(>=8)-[date]-\|就此迎刃而解, 妈妈再也用不担心我的-layoutSubviews, 是不是还有一些小激动?
 
 
 ## baseline alignment
