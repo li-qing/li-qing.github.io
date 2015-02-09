@@ -50,7 +50,7 @@ typedef NS_ENUM(NSInteger, NSLayoutRelation) {
 
 ## 拉伸与压缩
 
-考虑如下情况: "H:|-10-[label1]-10-[label1]-10-|", 假设label1和label2的horizontal intrinsic content size都为100, 那么容器所需的宽度就是230. 但若容器的实际宽度并不为230, 而是大于或小于230时, 会发生什么?
+考虑如下情况: "H:\|-10-[label1]-10-[label1]-10-\|", 假设label1和label2的horizontal intrinsic content size都为100, 那么容器所需的宽度就是230. 但若容器的实际宽度并不为230, 而是大于或小于230时, 会发生什么?
 
 实际上, 为了应对这种情况, Auto Layout为UIView新增了一些方法:
 
