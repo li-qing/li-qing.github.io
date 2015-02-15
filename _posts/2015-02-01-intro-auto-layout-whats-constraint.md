@@ -10,8 +10,8 @@ tags: AutoLayout
   1. 约束
   2. 布局空间
   3. 优先级
-  4. Auto Layout框架
-  5. Auto Layout中的autoresizing mask
+  4. 从autoresizing mask到layout constraint
+  5. 布局框架
   6. margin
 
 逐卷介绍Auto Layout中的部分概念, 并比对与先前布局机制的异同点.
