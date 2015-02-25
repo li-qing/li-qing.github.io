@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 深入剖析AutoLayout 之 从auto resizing到layout constraint
+title: 深入剖析AutoLayout 之 约束转译
 category: iOS
 tags: AutoLayout
 ---

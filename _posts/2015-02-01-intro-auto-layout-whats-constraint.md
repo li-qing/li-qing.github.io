@@ -5,14 +5,16 @@ category: iOS
 tags: AutoLayout
 ---
 
-开个坑讲讲Auto Layout的那点事儿. 预计分卷如下:
+开个坑讲讲Auto Layout的那点事儿. 分卷如下:
 
   1. 约束
   2. 布局空间
   3. 优先级
-  4. 从autoresizing mask到layout constraint
-  5. 布局框架
-  6. margin
+  4. 约束转译
+  5. 布局过程
+  6. 尺寸计算
+  7. 边距
+  8. Size Class
 
 逐卷介绍Auto Layout中的部分概念, 并比对与先前布局机制的异同点.
 
