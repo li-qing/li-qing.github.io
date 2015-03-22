@@ -14,7 +14,6 @@ tags: AutoLayout
   5. 布局过程
   6. 尺寸计算
   7. 边距
-  8. Size Class
 
 逐卷介绍Auto Layout中的部分概念, 并比对与先前布局机制的异同点.
 
@@ -140,11 +139,9 @@ typedef NSUInteger NSLayoutFormatOptions;
 
 Visual Format的强大之处在于它可以清晰的说明一个方向上各视图间的关系, 缺点是:
 
-1. 无法设定multiplier 
+1. 无法使用margin 
 
-2. 无法使用margin 
-
-3. 约束设定远离视图创建的位置
+2. 约束设定远离视图创建的位置
 
 ## 使用IB中创建约束
 
