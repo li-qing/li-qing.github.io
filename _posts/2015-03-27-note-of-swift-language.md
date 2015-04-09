@@ -2,7 +2,7 @@
 layout: post
 title: The Swift Programming Language 笔记
 category: iOS
-tags: Note
+tags: Swift
 ---
 
 ## The Basics
