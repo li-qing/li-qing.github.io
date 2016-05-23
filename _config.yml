@@ -21,7 +21,7 @@ paginate: 5
 
 # build
 markdown: kramdown
-highlighter: pygments
+# highlighter: pygments
 permalink: pretty
-relative_permalinks: true
+# relative_permalinks: true
 #markdown: redcarpet
